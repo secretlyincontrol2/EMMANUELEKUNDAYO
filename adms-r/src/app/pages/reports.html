@@ -1,0 +1,150 @@
+<div class="page">
+    <div class="top-bar">
+        <div>
+            <h1>Compliance & Governance Reports</h1>
+            <p class="muted">NDPR compliance · Algorithmic fairness audit · Model governance</p>
+        </div>
+        <div class="actions">
+            <button class="btn-primary">◧ Export PDF Report</button>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-label">Compliance Score</div>
+            <div class="stat-value">{{ compliancePercent }}%</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Items Completed</div>
+            <div class="stat-value">{{ doneCount }}/{{ totalCount }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Bias Audit</div>
+            <div class="stat-value">✓ Pass</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Last Audit</div>
+            <div class="stat-value-sm">Feb 2026</div>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <!-- NDPR Checklist -->
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">NDPR Compliance Checklist</span>
+                <span class="badge">Governance</span>
+            </div>
+            <div class="checklist">
+                <div class="check-item" *ngFor="let item of checklist">
+                    <div class="check-icon" [class.done]="item.status === 'done'"
+                        [class.pending]="item.status === 'pending'">
+                        {{ item.status === 'done' ? '✓' : '○' }}
+                    </div>
+                    <div class="check-body">
+                        <div class="check-title">{{ item.item }}</div>
+                        <div class="check-detail">{{ item.detail }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <!-- Fairness Summary -->
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-title">Fairness Metrics Summary</span>
+                    <span class="badge">XAI</span>
+                </div>
+                <div class="fairness-list">
+                    <div class="fair-item" *ngFor="let m of fairnessMetrics">
+                        <div class="fair-top">
+                            <span class="fair-name">{{ m.name }}</span>
+                            <span class="fair-status" [class.pass]="m.status === 'pass'">{{ m.status === 'pass' ? '✓
+                                PASS' : '✕ FAIL' }}</span>
+                        </div>
+                        <div class="fair-row">
+                            <span class="fair-val">{{ m.value }}</span>
+                            <div class="fair-bar">
+                                <div class="fair-fill" [style.width.%]="m.value * 100"></div>
+                                <div class="fair-thresh" [style.left.%]="m.threshold * 100"></div>
+                            </div>
+                            <span class="fair-thresh-label">{{ m.threshold }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model Metrics -->
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-title">XGBoost Model Report</span>
+                </div>
+                <div class="model-grid">
+                    <div class="model-item">
+                        <div class="model-val">{{ (modelMetrics.accuracy * 100).toFixed(1) }}%</div>
+                        <div class="model-label">Accuracy</div>
+                    </div>
+                    <div class="model-item">
+                        <div class="model-val">{{ (modelMetrics.precision * 100).toFixed(1) }}%</div>
+                        <div class="model-label">Precision</div>
+                    </div>
+                    <div class="model-item">
+                        <div class="model-val">{{ (modelMetrics.recall * 100).toFixed(1) }}%</div>
+                        <div class="model-label">Recall</div>
+                    </div>
+                    <div class="model-item">
+                        <div class="model-val">{{ modelMetrics.f1Score }}</div>
+                        <div class="model-label">F1-Score</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Actions -->
+    <div class="card">
+        <div class="card-head">
+            <span class="card-title">Available Reports</span>
+        </div>
+        <div class="report-list">
+            <div class="report-item">
+                <div class="report-icon">◧</div>
+                <div class="report-body">
+                    <div class="report-name">NDPR Compliance Audit Report</div>
+                    <div class="report-desc">Full compliance assessment including data processing consent, encryption,
+                        and right to explanation status</div>
+                </div>
+                <button class="btn-ghost">Export →</button>
+            </div>
+            <div class="report-item">
+                <div class="report-icon">◈</div>
+                <div class="report-body">
+                    <div class="report-name">Algorithmic Fairness Report</div>
+                    <div class="report-desc">Bias audit results with Demographic Parity, Accuracy Difference, and Equal
+                        Opportunity metrics</div>
+                </div>
+                <button class="btn-ghost">Export →</button>
+            </div>
+            <div class="report-item">
+                <div class="report-icon">◉</div>
+                <div class="report-body">
+                    <div class="report-name">Model Performance Report</div>
+                    <div class="report-desc">XGBoost model validation results including confusion matrix, ROC curve, and
+                        feature importance</div>
+                </div>
+                <button class="btn-ghost">Export →</button>
+            </div>
+            <div class="report-item">
+                <div class="report-icon">◎</div>
+                <div class="report-body">
+                    <div class="report-name">Employee Performance Summary</div>
+                    <div class="report-desc">Organisation-wide performance assessment with department breakdowns and
+                        individual scorecards</div>
+                </div>
+                <button class="btn-ghost">Export →</button>
+            </div>
+        </div>
+    </div>
+</div>

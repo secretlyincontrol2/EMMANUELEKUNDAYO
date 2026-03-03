@@ -1,0 +1,86 @@
+<div class="page">
+    <div class="top-bar">
+        <div>
+            <h1>Team Overview</h1>
+            <p class="muted">Department performance at a glance · Computer Science</p>
+        </div>
+        <div class="actions">
+            <button class="btn-ghost" (click)="goTo('/feedback-form')">◫ Submit Review</button>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-label">Team Members</div>
+            <div class="stat-value">{{ teamMembers.length }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Avg. Score</div>
+            <div class="stat-value">{{ avgScore }}%</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">At-Risk</div>
+            <div class="stat-value">{{ atRiskCount }}</div>
+            <div class="stat-change" *ngIf="atRiskCount > 0">Requires attention</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Top Performer</div>
+            <div class="stat-value-sm" *ngIf="topPerformer">{{ topPerformer.name }}</div>
+            <div class="stat-change" *ngIf="topPerformer">{{ topPerformer.overallScore }}%</div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Score Distribution</span>
+            </div>
+            <div class="chart-wrap"><canvas id="teamDistChart"></canvas></div>
+        </div>
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Team Competency Radar</span>
+            </div>
+            <div class="chart-wrap"><canvas id="teamRadarChart"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Employee List -->
+    <div class="card">
+        <div class="card-head">
+            <span class="card-title">Team Members</span>
+            <span class="badge">{{ teamMembers.length }} members</span>
+        </div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Role</th>
+                    <th>Score</th>
+                    <th>Sentiment</th>
+                    <th>Attendance</th>
+                    <th>Risk</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let emp of teamMembers">
+                    <td>
+                        <div class="emp-cell">
+                            <div class="emp-avatar">{{ emp.initials }}</div>
+                            <span>{{ emp.name }}</span>
+                        </div>
+                    </td>
+                    <td class="muted-cell">{{ emp.role }}</td>
+                    <td class="bold-cell">{{ emp.overallScore }}%</td>
+                    <td>{{ emp.sentimentScore }}</td>
+                    <td>{{ emp.attendance }}%</td>
+                    <td><span class="risk-badge" [ngClass]="getRiskClass(emp.riskLevel)">{{ emp.riskLevel }}</span></td>
+                    <td><button class="btn-ghost-sm" (click)="goTo('/xai-detail')">View →</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

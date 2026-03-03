@@ -1,0 +1,124 @@
+<div class="page">
+    <div class="top-bar">
+        <div>
+            <h1>Score Explanation</h1>
+            <p class="muted">SHAP & LIME transparency layer · {{ emp?.name }}</p>
+        </div>
+    </div>
+
+    <!-- Explanation Card -->
+    <div class="explain-card">
+        <div class="explain-quote">◈</div>
+        <div class="explain-body">
+            <strong>Why this score?</strong> — {{ emp?.name }} received a score of <strong>{{ emp?.overallScore
+                }}%</strong>.
+            The XGBoost model weighted <strong>KPI Achievement</strong> and <strong>Peer Sentiment</strong> as the
+            strongest
+            positive contributors, while <strong>Student Feedback</strong> had a slight negative impact. All features
+            below
+            are auditable under NDPR Art. 3.1 (Right to Explanation).
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab" [class.active]="activeTab === 'shap'" (click)="activeTab = 'shap'">SHAP Analysis</button>
+        <button class="tab" [class.active]="activeTab === 'lime'" (click)="activeTab = 'lime'">LIME Explanation</button>
+    </div>
+
+    <!-- SHAP View -->
+    <div *ngIf="activeTab === 'shap'">
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">SHAP Feature Contributions (Waterfall)</span>
+                <span class="badge">Global XAI</span>
+            </div>
+            <div class="waterfall">
+                <div class="wf-row" *ngFor="let f of shapFeatures">
+                    <div class="wf-label">{{ f.name }}</div>
+                    <div class="wf-bar-area">
+                        <div class="wf-center"></div>
+                        <div class="wf-bar" [class.pos]="f.value >= 0" [class.neg]="f.value < 0"
+                            [style.width.%]="getBarWidth(f.value)" [class.left]="f.value < 0"
+                            [class.right]="f.value >= 0"></div>
+                    </div>
+                    <div class="wf-val" [class.pos]="f.value >= 0" [class.neg]="f.value < 0">
+                        {{ f.value > 0 ? '+' : '' }}{{ f.value.toFixed(2) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Feature Contribution Details</span>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>SHAP Value</th>
+                        <th>Direction</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let f of shapFeatures">
+                        <td class="bold-cell">{{ f.name }}</td>
+                        <td>{{ f.value > 0 ? '+' : '' }}{{ f.value.toFixed(3) }}</td>
+                        <td><span class="dir-badge" [class.pos]="f.value >= 0" [class.neg]="f.value < 0">{{ f.value >= 0
+                                ? '▲ Positive' : '▼ Negative' }}</span></td>
+                        <td class="muted-cell">{{ f.description }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- LIME View -->
+    <div *ngIf="activeTab === 'lime'">
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">LIME Local Explanation</span>
+                <span class="badge">Local XAI</span>
+            </div>
+            <div class="lime-score-row">
+                <div class="lime-score">
+                    <div class="lime-val">{{ limeExplanation.baseScore }}</div>
+                    <div class="lime-label">Base Score</div>
+                </div>
+                <div class="lime-arrow">→</div>
+                <div class="lime-rules">
+                    <div class="lime-rule" *ngFor="let r of limeExplanation.rules"
+                        [class.pos]="r.direction === 'positive'" [class.neg]="r.direction === 'negative'">
+                        <span class="rule-impact">{{ r.impact > 0 ? '+' : '' }}{{ r.impact }}</span>
+                        <span class="rule-text">{{ r.feature }}</span>
+                    </div>
+                </div>
+                <div class="lime-arrow">→</div>
+                <div class="lime-score final">
+                    <div class="lime-val">{{ limeExplanation.finalScore }}</div>
+                    <div class="lime-label">Final Score</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Interpretable Decision Rules</span>
+            </div>
+            <div class="rule-list">
+                <div class="rule-item" *ngFor="let r of limeExplanation.rules; let i = index">
+                    <span class="rule-num">{{ i + 1 }}</span>
+                    <div class="rule-body">
+                        <span class="rule-feature">IF {{ r.feature }}</span>
+                        <span class="rule-effect" [class.pos]="r.direction === 'positive'"
+                            [class.neg]="r.direction === 'negative'">
+                            THEN score {{ r.impact > 0 ? '+' : '' }}{{ r.impact }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

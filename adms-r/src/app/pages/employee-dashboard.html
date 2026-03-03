@@ -1,0 +1,138 @@
+<div class="page">
+    <!-- Header -->
+    <div class="top-bar">
+        <div>
+            <h1>My Performance Dashboard</h1>
+            <p class="muted">Continuous assessment overview · Updated in real-time</p>
+        </div>
+        <div class="actions">
+            <button class="btn-ghost" (click)="goTo('/feedback-form')">◫ Give Feedback</button>
+            <button class="btn-primary" (click)="goTo('/xai-detail')">◈ Why This Score?</button>
+        </div>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-label">Overall Score</div>
+            <div class="stat-value">{{ emp.overallScore }}%</div>
+            <div class="stat-change up">▲ +3.2% from last month</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">KPI Achievement</div>
+            <div class="stat-value">{{ emp.kpiScore }}%</div>
+            <div class="stat-change up">▲ +5.1%</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Sentiment Score</div>
+            <div class="stat-value">{{ emp.sentimentScore }}</div>
+            <div class="stat-change">● Stable</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Attendance Rate</div>
+            <div class="stat-value">{{ emp.attendance }}%</div>
+            <div class="stat-change up">▲ +1.5%</div>
+        </div>
+    </div>
+
+    <!-- Score Ring + SHAP -->
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Performance Score</span>
+                <span class="badge">XGBoost</span>
+            </div>
+            <div class="score-ring-wrap">
+                <svg viewBox="0 0 132 132" class="score-ring">
+                    <circle cx="66" cy="66" r="58" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" />
+                    <circle cx="66" cy="66" r="58" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"
+                        [attr.stroke-dasharray]="circumference" [attr.stroke-dashoffset]="dashOffset"
+                        style="transform: rotate(-90deg); transform-origin: center;" />
+                </svg>
+                <div class="score-text">
+                    <span class="score-num">{{ emp.overallScore }}</span>
+                    <span class="score-label">out of 100</span>
+                </div>
+            </div>
+            <div class="explanation-box">
+                Your score is primarily driven by <strong>strong KPI achievement ({{ emp.kpiScore }}%)</strong> and
+                <strong>positive peer sentiment</strong>. Main area for improvement:
+                <strong>student feedback scores</strong>.
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">SHAP Feature Importance</span>
+                <span class="badge">XAI</span>
+            </div>
+            <div class="shap-list">
+                <div class="shap-row" *ngFor="let f of shapFeatures">
+                    <div class="shap-labels">
+                        <span class="shap-name">{{ f.name }}</span>
+                        <span class="shap-val" [class.pos]="f.value >= 0" [class.neg]="f.value < 0">{{ f.value > 0 ? '+'
+                            : '' }}{{ f.value.toFixed(2) }}</span>
+                    </div>
+                    <div class="shap-bar">
+                        <div class="shap-fill" [class.pos]="f.value >= 0" [class.neg]="f.value < 0"
+                            [style.width.%]="getBarWidth(f.value)"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-ghost full-w" (click)="goTo('/xai-detail')">View Full SHAP & LIME Analysis →</button>
+        </div>
+    </div>
+
+    <!-- Trend + Feedback -->
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Performance Trend</span>
+                <span class="badge">12 Months</span>
+            </div>
+            <div class="chart-wrap">
+                <canvas id="empTrendChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Recent Feedback</span>
+                <span class="badge">{{ feedbacks.length }} items</span>
+            </div>
+            <div class="feedback-list">
+                <div class="fb-card" *ngFor="let fb of feedbacks" [ngClass]="fb.sentiment">
+                    <div class="fb-head">
+                        <span class="fb-source">{{ fb.source }}</span>
+                        <span class="fb-badge" [ngClass]="fb.sentiment">{{ fb.sentimentLabel }}</span>
+                    </div>
+                    <p class="fb-text">"{{ fb.text }}"</p>
+                    <div class="fb-meta">
+                        <span>{{ fb.date }}</span>
+                        <span>NLP Score: {{ fb.nlpScore }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPI Progress -->
+    <div class="card">
+        <div class="card-head">
+            <span class="card-title">KPI Progress Overview</span>
+            <button class="btn-ghost" (click)="goTo('/kpi-tracking')">View Details →</button>
+        </div>
+        <div class="kpi-grid">
+            <div class="kpi-item" *ngFor="let kpi of kpis">
+                <div class="kpi-top">
+                    <span class="kpi-name">{{ kpi.name }}</span>
+                    <span class="kpi-pct">{{ kpi.progress }}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" [style.width.%]="kpi.progress"></div>
+                </div>
+                <span class="kpi-target">Target: {{ kpi.target }}</span>
+            </div>
+        </div>
+    </div>
+</div>

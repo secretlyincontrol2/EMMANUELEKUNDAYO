@@ -1,0 +1,42 @@
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo">AR</div>
+        <span class="sidebar-title">ADMS-R</span>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="section-label">MAIN</div>
+        <a *ngFor="let item of navItems.main" [routerLink]="item.page" class="nav-item"
+            [class.active]="isActive(item.page)">
+            <span class="nav-icon">{{ item.icon }}</span>
+            <span class="nav-label">{{ item.label }}</span>
+        </a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="section-label">ANALYSIS</div>
+        <a *ngFor="let item of navItems.analysis" [routerLink]="item.page" class="nav-item"
+            [class.active]="isActive(item.page)">
+            <span class="nav-icon">{{ item.icon }}</span>
+            <span class="nav-label">{{ item.label }}</span>
+        </a>
+    </div>
+
+    <div class="sidebar-section" *ngIf="navItems.governance.length > 0">
+        <div class="section-label">GOVERNANCE</div>
+        <a *ngFor="let item of navItems.governance" [routerLink]="item.page" class="nav-item"
+            [class.active]="isActive(item.page)">
+            <span class="nav-icon">{{ item.icon }}</span>
+            <span class="nav-label">{{ item.label }}</span>
+        </a>
+    </div>
+
+    <div class="sidebar-user">
+        <div class="user-avatar">{{ userInitials }}</div>
+        <div class="user-info">
+            <div class="user-name">{{ userName }}</div>
+            <div class="user-role">{{ userRole }}</div>
+        </div>
+        <button class="logout-btn" (click)="logout()" title="Logout">✕</button>
+    </div>
+</nav>

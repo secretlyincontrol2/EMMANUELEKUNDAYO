@@ -1,0 +1,123 @@
+<div class="page">
+    <div class="top-bar">
+        <div>
+            <h1>360° Feedback Submission</h1>
+            <p class="muted">Multi-source performance review · NLP-processed</p>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-msg" *ngIf="submitted">
+        ✓ Feedback submitted successfully. NLP processing will update the employee's score.
+    </div>
+
+    <div class="form-grid">
+        <!-- Left: Form -->
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Review Details</span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Employee</label>
+                <select class="form-input" [(ngModel)]="selectedEmployee">
+                    <option value="" disabled>Select an employee...</option>
+                    <option *ngFor="let emp of employees" [value]="emp.id">{{ emp.name }} — {{ emp.role }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Feedback Type</label>
+                <select class="form-input" [(ngModel)]="feedbackType">
+                    <option value="peer">Peer Review</option>
+                    <option value="supervisor">Supervisor Review</option>
+                    <option value="subordinate">Subordinate Review</option>
+                    <option value="student">Student Feedback</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Qualitative Feedback</label>
+                <textarea class="form-textarea" [(ngModel)]="qualitativeFeedback" (input)="onTextChange()"
+                    placeholder="Provide detailed qualitative feedback about the employee's performance, collaboration, and areas for improvement..."></textarea>
+            </div>
+
+            <!-- NLP Preview -->
+            <div class="nlp-preview" [ngClass]="sentimentPreview">
+                <div class="nlp-icon">{{ sentimentEmoji }}</div>
+                <div class="nlp-info">
+                    <div class="nlp-label">NLP Sentiment Preview</div>
+                    <div class="nlp-score">{{ sentimentPreview | titlecase }} · Score: {{ sentimentScore.toFixed(2) }}
+                    </div>
+                </div>
+                <span class="badge">Live</span>
+            </div>
+        </div>
+
+        <!-- Right: Competency + Likert -->
+        <div>
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-title">Competency Ratings</span>
+                </div>
+
+                <div class="slider-group">
+                    <label class="slider-label">
+                        <span>Leadership</span><span class="slider-val">{{ leadership }}/5</span>
+                    </label>
+                    <input type="range" min="1" max="5" step="1" [(ngModel)]="leadership" class="range-slider">
+                </div>
+
+                <div class="slider-group">
+                    <label class="slider-label">
+                        <span>Collaboration</span><span class="slider-val">{{ collaboration }}/5</span>
+                    </label>
+                    <input type="range" min="1" max="5" step="1" [(ngModel)]="collaboration" class="range-slider">
+                </div>
+
+                <div class="slider-group">
+                    <label class="slider-label">
+                        <span>Communication</span><span class="slider-val">{{ communication }}/5</span>
+                    </label>
+                    <input type="range" min="1" max="5" step="1" [(ngModel)]="communication" class="range-slider">
+                </div>
+
+                <div class="slider-group">
+                    <label class="slider-label">
+                        <span>Initiative</span><span class="slider-val">{{ initiative }}/5</span>
+                    </label>
+                    <input type="range" min="1" max="5" step="1" [(ngModel)]="initiative" class="range-slider">
+                </div>
+
+                <div class="slider-group">
+                    <label class="slider-label">
+                        <span>Integrity</span><span class="slider-val">{{ integrity }}/5</span>
+                    </label>
+                    <input type="range" min="1" max="5" step="1" [(ngModel)]="integrity" class="range-slider">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-title">SDA Value Alignment</span>
+                    <span class="badge">Babcock</span>
+                </div>
+                <p class="muted" style="margin-bottom:var(--sp-md);">Rate the employee's alignment with institutional
+                    values</p>
+
+                <div class="likert-row">
+                    <span class="likert-q">Strongly Disagree</span>
+                    <div class="likert-options">
+                        <label class="likert-opt" *ngFor="let n of [1,2,3,4,5]">
+                            <input type="radio" name="sda" [value]="n" [(ngModel)]="sdaAlignment">
+                            <span class="likert-dot">{{ n }}</span>
+                        </label>
+                    </div>
+                    <span class="likert-q">Strongly Agree</span>
+                </div>
+            </div>
+
+            <button class="btn-submit" (click)="submitFeedback()">Submit Feedback →</button>
+        </div>
+    </div>
+</div>

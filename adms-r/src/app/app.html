@@ -1,0 +1,10 @@
+<div class="app-wrapper" *ngIf="showShell; else loginView">
+  <app-sidebar></app-sidebar>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+<ng-template #loginView>
+  <router-outlet></router-outlet>
+</ng-template>

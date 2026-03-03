@@ -1,0 +1,107 @@
+<div class="page">
+    <div class="top-bar">
+        <div>
+            <h1>HR Analytics Dashboard</h1>
+            <p class="muted">Organisation-wide performance & governance overview</p>
+        </div>
+        <div class="actions">
+            <button class="btn-primary" (click)="goTo('/reports')">◧ Compliance Reports</button>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-label">Total Employees</div>
+            <div class="stat-value">{{ totalEmployees }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Org Avg Score</div>
+            <div class="stat-value">{{ orgAvgScore }}%</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Model Accuracy</div>
+            <div class="stat-value">{{ (modelMetrics.accuracy * 100).toFixed(0) }}%</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">F1-Score</div>
+            <div class="stat-value">{{ modelMetrics.f1Score }}</div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Score Distribution</span>
+                <span class="badge">Organisation</span>
+            </div>
+            <div class="chart-wrap"><canvas id="orgDistChart"></canvas></div>
+        </div>
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Department Comparison</span>
+            </div>
+            <div class="chart-wrap"><canvas id="deptBarChart"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Fairness Metrics -->
+    <div class="card">
+        <div class="card-head">
+            <span class="card-title">Algorithmic Fairness Audit</span>
+            <span class="badge">XAI Governance</span>
+        </div>
+        <div class="fairness-grid">
+            <div class="fairness-item" *ngFor="let m of fairnessMetrics">
+                <div class="fairness-top">
+                    <span class="fairness-val">{{ m.value }}</span>
+                    <span class="status-badge" [class.pass]="m.status === 'pass'" [class.fail]="m.status === 'fail'">
+                        {{ m.status === 'pass' ? '✓ PASS' : '✕ FAIL' }}
+                    </span>
+                </div>
+                <div class="fairness-name">{{ m.name }}</div>
+                <p class="fairness-desc">{{ m.description }}</p>
+                <div class="fairness-bar">
+                    <div class="fairness-fill" [style.width.%]="m.value * 100"></div>
+                    <div class="fairness-threshold" [style.left.%]="m.threshold * 100"></div>
+                </div>
+                <div class="fairness-labels">
+                    <span>0</span>
+                    <span>Threshold: {{ m.threshold }}</span>
+                    <span>1.0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Model Performance -->
+    <div class="card">
+        <div class="card-head">
+            <span class="card-title">XGBoost Model Metrics</span>
+            <span class="badge">ML Performance</span>
+        </div>
+        <div class="metrics-grid">
+            <div class="metric-item">
+                <div class="metric-val">{{ (modelMetrics.accuracy * 100).toFixed(1) }}%</div>
+                <div class="metric-name">Accuracy</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-val">{{ (modelMetrics.precision * 100).toFixed(1) }}%</div>
+                <div class="metric-name">Precision</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-val">{{ (modelMetrics.recall * 100).toFixed(1) }}%</div>
+                <div class="metric-name">Recall</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-val">{{ modelMetrics.f1Score }}</div>
+                <div class="metric-name">F1-Score</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-val">{{ modelMetrics.auc }}</div>
+                <div class="metric-name">AUC-ROC</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ADMS-R Tracker</title>
+    <link rel="stylesheet" href="popup.css">
+    <script src="chart.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">AR</div>
+        <div class="title">ADMS-R Tracker</div>
+    </div>
+
+    <div id="unauth-view" class="view">
+        <div class="alert warn">
+            <span>Not authenticated.</span>
+            <p>Please log in to the ADMS-R dashboard to start tracking your academic engagement securely.</p>
+        </div>
+        <button id="btn-login" class="btn">Login to ADMS-R</button>
+    </div>
+
+    <div id="auth-view" class="view hidden">
+        <div class="status-pill active">
+            <span class="dot"></span> Monitoring Active Session
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <label>Today's Engagement</label>
+                <div class="val" id="val-time">4h 12m</div>
+            </div>
+            <div class="stat-card">
+                <label>Interactions</label>
+                <div class="val" id="val-clicks">1,245</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <label>Weekly Engagement (Hours)</label>
+            <canvas id="weeklyChart"></canvas>
+        </div>
+
+        <div class="recent-list">
+            <label>Recent Sessions Sync</label>
+            <div class="sync-item">
+                <div class="sync-dot success"></div>
+                <div class="sync-text">
+                    <span>Introduction to AI Module</span>
+                    <small>45 mins • synced 2m ago</small>
+                </div>
+            </div>
+            <div class="sync-item">
+                <div class="sync-dot success"></div>
+                <div class="sync-text">
+                    <span>Assignment 3 Submission</span>
+                    <small>12 mins • synced 1h ago</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <span>ADMS-R Prototype • NDPR Compliant</span>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

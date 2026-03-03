@@ -1,0 +1,360 @@
+.page {
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.top-bar {
+    margin-bottom: var(--sp-xl);
+}
+
+.muted {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 2px;
+}
+
+/* Explanation Card */
+.explain-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: var(--sp-lg);
+    margin-bottom: var(--sp-xl);
+    display: flex;
+    gap: var(--sp-md);
+    align-items: flex-start;
+}
+
+.explain-quote {
+    font-size: 2rem;
+    color: var(--gray-600);
+    line-height: 1;
+}
+
+.explain-body {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+
+.explain-body strong {
+    color: var(--white);
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--bg-card);
+    border-radius: var(--r-sm);
+    padding: 3px;
+    margin-bottom: var(--sp-xl);
+    border: 1px solid var(--border);
+}
+
+.tab {
+    padding: 8px 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    transition: all var(--transition);
+}
+
+.tab:hover {
+    color: var(--text-secondary);
+}
+
+.tab.active {
+    background: var(--white);
+    color: var(--black);
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: var(--sp-lg);
+    margin-bottom: var(--sp-lg);
+}
+
+.card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--sp-md);
+}
+
+.card-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: var(--r-full);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+/* Waterfall */
+.waterfall {
+    padding: var(--sp-sm) 0;
+}
+
+.wf-row {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-md);
+    padding: 5px 0;
+}
+
+.wf-label {
+    width: 140px;
+    font-size: 0.82rem;
+    text-align: right;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+}
+
+.wf-bar-area {
+    flex: 1;
+    height: 22px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.wf-center {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.wf-bar {
+    height: 18px;
+    border-radius: 3px;
+    position: absolute;
+    transition: width 1s ease;
+}
+
+.wf-bar.pos.right {
+    left: 50%;
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.wf-bar.neg.left {
+    right: 50%;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.wf-val {
+    width: 55px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.wf-val.pos {
+    color: var(--white);
+}
+
+.wf-val.neg {
+    color: var(--gray-500);
+}
+
+/* Table */
+.data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.data-table thead th {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    padding: var(--sp-md);
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+
+.data-table tbody td {
+    padding: var(--sp-md);
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.data-table tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+.bold-cell {
+    font-weight: 600;
+}
+
+.muted-cell {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.dir-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--r-full);
+    border: 1px solid var(--border);
+    text-transform: uppercase;
+}
+
+.dir-badge.pos {
+    border-color: var(--white);
+    color: var(--white);
+}
+
+.dir-badge.neg {
+    color: var(--gray-500);
+}
+
+/* LIME */
+.lime-score-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-lg);
+    padding: var(--sp-xl) 0;
+    flex-wrap: wrap;
+}
+
+.lime-score {
+    text-align: center;
+}
+
+.lime-score.final {}
+
+.lime-val {
+    font-size: 2.2rem;
+    font-weight: 800;
+}
+
+.lime-label {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+}
+
+.lime-arrow {
+    font-size: 1.5rem;
+    color: var(--gray-600);
+}
+
+.lime-rules {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.lime-rule {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+    padding: 4px 12px;
+    background: var(--bg-elevated);
+    border-radius: var(--r-sm);
+    font-size: 0.82rem;
+}
+
+.lime-rule.pos {
+    border-left: 2px solid var(--white);
+}
+
+.lime-rule.neg {
+    border-left: 2px solid var(--gray-600);
+}
+
+.rule-impact {
+    font-weight: 700;
+    min-width: 30px;
+}
+
+.rule-text {
+    color: var(--text-secondary);
+}
+
+/* Rule List */
+.rule-list {}
+
+.rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-md);
+    padding: var(--sp-md) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.rule-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: var(--text-muted);
+}
+
+.rule-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.rule-feature {
+    font-size: 0.88rem;
+    font-weight: 500;
+}
+
+.rule-effect {
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.rule-effect.pos {
+    color: var(--white);
+}
+
+.rule-effect.neg {
+    color: var(--gray-500);
+}

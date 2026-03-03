@@ -1,0 +1,90 @@
+<div class="page">
+    <div class="top-bar">
+        <div>
+            <h1>KPI Tracking</h1>
+            <p class="muted">Key Performance Indicators · Goal tracking & attendance</p>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-label">Total KPIs</div>
+            <div class="stat-value">{{ kpis.length }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Avg Progress</div>
+            <div class="stat-value">{{ avgProgress }}%</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Completed</div>
+            <div class="stat-value">{{ completedCount }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Categories</div>
+            <div class="stat-value">{{ categories.length - 1 }}</div>
+        </div>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="filter-row">
+        <button *ngFor="let cat of categories" class="filter-btn" [class.active]="selectedCategory === cat"
+            (click)="selectCategory(cat)">{{ cat }}</button>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">KPI Progress</span>
+            </div>
+            <div class="kpi-list">
+                <div class="kpi-item" *ngFor="let kpi of filteredKpis">
+                    <div class="kpi-top">
+                        <span class="kpi-name">{{ kpi.name }}</span>
+                        <span class="kpi-pct">{{ kpi.progress }}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" [style.width.%]="kpi.progress"
+                            [class.complete]="kpi.progress >= 100"></div>
+                    </div>
+                    <div class="kpi-bottom">
+                        <span class="kpi-target">Target: {{ kpi.target }}</span>
+                        <span class="kpi-cat">{{ kpi.category }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-title">Progress by Category</span>
+                </div>
+                <div class="chart-wrap"><canvas id="kpiCategoryChart"></canvas></div>
+            </div>
+
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-title">Attendance Heatmap</span>
+                    <span class="badge">8 Weeks</span>
+                </div>
+                <div class="heatmap-labels">
+                    <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                </div>
+                <div class="heatmap" *ngFor="let week of heatmapWeeks">
+                    <div *ngFor="let day of week" class="heat-cell" [ngClass]="getHeatLevel(day)"></div>
+                </div>
+                <div class="heatmap-legend">
+                    <span>Less</span>
+                    <div class="heat-cell level-0 small"></div>
+                    <div class="heat-cell level-1 small"></div>
+                    <div class="heat-cell level-2 small"></div>
+                    <div class="heat-cell level-3 small"></div>
+                    <div class="heat-cell level-4 small"></div>
+                    <span>More</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

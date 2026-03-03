@@ -1,0 +1,35 @@
+<div class="login-page">
+    <div class="login-container">
+        <div class="branding">
+            <div class="logo">AR</div>
+            <h1>ADMS-R System</h1>
+            <p class="subtitle">AI-Driven Multi-Source Rating for transparent, continuous, and objective performance
+                assessment</p>
+        </div>
+
+        <div class="role-cards">
+            <div class="role-card" (click)="selectRole('employee')">
+                <div class="role-icon">◉</div>
+                <h3>Employee</h3>
+                <p>View your performance score, feedback history, and detailed XAI explanations of your ratings</p>
+                <span class="card-arrow">→</span>
+            </div>
+
+            <div class="role-card" (click)="selectRole('manager')">
+                <div class="role-icon">◎</div>
+                <h3>Manager</h3>
+                <p>Review team performance, submit 360° feedback, and monitor real-time employee progress</p>
+                <span class="card-arrow">→</span>
+            </div>
+
+            <div class="role-card" (click)="selectRole('hr')">
+                <div class="role-icon">◈</div>
+                <h3>HR Admin</h3>
+                <p>Access organisation analytics, algorithmic fairness audits, and NDPR compliance reports</p>
+                <span class="card-arrow">→</span>
+            </div>
+        </div>
+
+        <p class="footer-text">Prototype Demo — Babcock University Context · NDPR Compliant · XAI Transparency Layer</p>
+    </div>
+</div>
