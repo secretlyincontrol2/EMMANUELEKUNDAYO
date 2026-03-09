@@ -21,7 +21,8 @@ export class HrDashboard implements OnInit, AfterViewInit {
 
   constructor(public mockData: MockDataService, private router: Router) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.mockData.loadEmployees();
     const all = this.mockData.getAllEmployees();
     this.totalEmployees = all.length;
     this.orgAvgScore = Math.round(all.reduce((s, e) => s + e.overallScore, 0) / all.length);

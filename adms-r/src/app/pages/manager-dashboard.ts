@@ -20,7 +20,8 @@ export class ManagerDashboard implements OnInit, AfterViewInit {
 
   constructor(public mockData: MockDataService, private router: Router) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.mockData.loadEmployees();
     this.teamMembers = this.mockData.getTeamEmployees();
     this.avgScore = Math.round(this.teamMembers.reduce((s, e) => s + e.overallScore, 0) / this.teamMembers.length);
     this.atRiskCount = this.teamMembers.filter(e => e.riskLevel === 'high').length;

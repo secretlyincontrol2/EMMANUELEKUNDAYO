@@ -29,10 +29,7 @@
             <div class="form-group">
                 <label class="form-label">Feedback Type</label>
                 <select class="form-input" [(ngModel)]="feedbackType">
-                    <option value="peer">Peer Review</option>
-                    <option value="supervisor">Supervisor Review</option>
-                    <option value="subordinate">Subordinate Review</option>
-                    <option value="student">Student Feedback</option>
+                    <option *ngFor="let t of allowedTypes" [value]="t.value">{{ t.label }}</option>
                 </select>
             </div>
 
@@ -46,12 +43,17 @@
             <div class="nlp-preview" [ngClass]="sentimentPreview">
                 <div class="nlp-icon">{{ sentimentEmoji }}</div>
                 <div class="nlp-info">
-                    <div class="nlp-label">NLP Sentiment Preview</div>
+                    <div class="nlp-label">NLP Sentiment Analysis</div>
                     <div class="nlp-score">{{ sentimentPreview | titlecase }} · Score: {{ sentimentScore.toFixed(2) }}
                     </div>
                 </div>
-                <span class="badge">Live</span>
+                <span class="badge" *ngIf="sentimentAnalyzed">Analyzed ✓</span>
+                <span class="badge" *ngIf="!sentimentAnalyzed">Pending</span>
             </div>
+
+            <button class="btn-analyze" (click)="analyzeSentiment()" [disabled]="isAnalyzing || !qualitativeFeedback">
+                {{ isAnalyzing ? '◈ Analyzing...' : '◈ Analyze Sentiment' }}
+            </button>
         </div>
 
         <!-- Right: Competency + Likert -->
@@ -117,7 +119,10 @@
                 </div>
             </div>
 
-            <button class="btn-submit" (click)="submitFeedback()">Submit Feedback →</button>
+            <button class="btn-submit" (click)="submitFeedback()"
+                [disabled]="isSubmitting || !selectedEmployee || !qualitativeFeedback">
+                {{ isSubmitting ? 'Submitting...' : 'Submit Feedback →' }}
+            </button>
         </div>
     </div>
 </div>

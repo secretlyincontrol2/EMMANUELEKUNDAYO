@@ -6,8 +6,12 @@
             <p class="muted">Continuous assessment overview · Updated in real-time</p>
         </div>
         <div class="actions">
+            <button class="btn-ghost" *ngIf="mockData.currentRole === 'manager' || mockData.currentRole === 'hr'"
+                (click)="showUpdateModal = true">◫ Update Metrics</button>
+            <button class="btn-primary" *ngIf="mockData.currentRole === 'manager' || mockData.currentRole === 'hr'"
+                (click)="showUpdateModal = true">◈ Run AI Analysis</button>
             <button class="btn-ghost" (click)="goTo('/feedback-form')">◫ Give Feedback</button>
-            <button class="btn-primary" (click)="goTo('/xai-detail')">◈ Why This Score?</button>
+            <button class="btn-ghost" (click)="goTo('/xai-detail')">◈ Why This Score?</button>
         </div>
     </div>
 
@@ -133,6 +137,33 @@
                 </div>
                 <span class="kpi-target">Target: {{ kpi.target }}</span>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Metrics Modal -->
+<div class="modal-overlay" *ngIf="showUpdateModal">
+    <div class="modal-content">
+        <h3>Update Your Metrics</h3>
+        <p class="muted" style="margin-bottom: 1.5rem; font-size: 0.9rem;">Submit your latest numbers to update the ML
+            prediction.</p>
+
+        <div class="form-group">
+            <label>KPI Achievement (%)</label>
+            <input type="number" [(ngModel)]="updateForm.kpi" min="0" max="100">
+        </div>
+        <div class="form-group">
+            <label>Attendance Rate (%)</label>
+            <input type="number" [(ngModel)]="updateForm.attendance" min="0" max="100">
+        </div>
+        <div class="form-group">
+            <label>Research Output (Count)</label>
+            <input type="number" [(ngModel)]="updateForm.research" min="0">
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn-ghost" (click)="showUpdateModal = false">Cancel</button>
+            <button class="btn-primary" (click)="submitMetrics()">Calculate & Save</button>
         </div>
     </div>
 </div>

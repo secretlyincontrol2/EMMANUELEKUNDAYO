@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MockDataService } from '../services/mock-data';
 
@@ -8,26 +9,35 @@ declare var Chart: any;
 @Component({
   selector: 'app-employee-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './employee-dashboard.html',
   styleUrl: './employee-dashboard.css'
 })
 export class EmployeeDashboard implements OnInit, AfterViewInit {
-  emp: any;
+  emp: any = { name: '', overallScore: 0, kpiScore: 0, sentimentScore: 0, attendance: 0, initials: '', riskLevel: 'low', trend: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] };
   feedbacks: any[] = [];
   kpis: any[] = [];
   shapFeatures: any[] = [];
   circumference = 2 * Math.PI * 58;
   dashOffset = 0;
+  showUpdateModal = false;
+  updateForm = { kpi: 0, attendance: 0, research: 0 };
 
   constructor(public mockData: MockDataService, private router: Router) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.mockData.loadEmployees();
     this.emp = this.mockData.getCurrentEmployee();
     this.feedbacks = this.mockData.feedbacks;
     this.kpis = this.mockData.kpis;
     this.shapFeatures = this.mockData.shapFeatures;
     this.dashOffset = this.circumference - (this.emp.overallScore / 100) * this.circumference;
+
+    this.updateForm = {
+      kpi: this.emp.kpiScore,
+      attendance: this.emp.attendance,
+      research: 5
+    };
   }
 
   ngAfterViewInit() {
@@ -90,5 +100,50 @@ export class EmployeeDashboard implements OnInit, AfterViewInit {
 
   getBarWidth(value: number): number {
     return Math.abs(value) / 0.25 * 100;
+  }
+
+  async submitMetrics() {
+    this.emp.kpiScore = this.updateForm.kpi;
+    this.emp.attendance = this.updateForm.attendance;
+
+    try {
+      const token = localStorage.getItem('adms_token');
+      const res = await fetch(`http://127.0.0.1:8081/api/ml/predict?kpi=${this.updateForm.kpi}&sentiment=${this.emp.sentimentScore}&attendance=${this.updateForm.attendance}&research=${this.updateForm.research}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+
+        // Update UI with real prediction from backend
+        this.emp.overallScore = Math.round(data.score);
+        this.dashOffset = this.circumference - (this.emp.overallScore / 100) * this.circumference;
+
+        // Parse and display SHAP features from backend if available
+        if (data.shap_json) {
+          try {
+            this.shapFeatures = JSON.parse(data.shap_json);
+          } catch (e) {
+            console.error("Failed to parse SHAP", e);
+          }
+        }
+
+        // Add point to trend
+        this.emp.trend.shift();
+        this.emp.trend.push(this.emp.overallScore);
+        this.renderTrendChart(); // Re-render
+      } else {
+        alert("Failed to calculate prediction using AI model");
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Network error reaching ML backend");
+    }
+
+    this.showUpdateModal = false;
   }
 }

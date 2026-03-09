@@ -15,7 +15,15 @@ export class Sidebar {
 
   get navItems() {
     const role = this.mockData.currentRole;
-    if (role === 'employee') {
+    if (role === 'student') {
+      return {
+        main: [
+          { page: '/feedback-form', label: 'Give Feedback', icon: '◫' },
+        ],
+        analysis: [] as any[],
+        governance: [] as any[]
+      };
+    } else if (role === 'employee') {
       return {
         main: [
           { page: '/employee-dashboard', label: 'Dashboard', icon: '◉' },
@@ -59,24 +67,23 @@ export class Sidebar {
   }
 
   get userName() {
-    const r = this.mockData.currentRole;
-    if (r === 'employee') return 'Dr. Adebayo F.';
-    if (r === 'manager') return 'Prof. Okonkwo J.';
-    return 'Mrs. Nnamdi A.';
+    const emp = this.mockData.getCurrentEmployee();
+    return emp?.name || 'User';
   }
 
   get userRole() {
-    const r = this.mockData.currentRole;
-    if (r === 'employee') return 'Lecturer II';
-    if (r === 'manager') return 'HOD, Computer Science';
-    return 'HR Director';
+    const emp = this.mockData.getCurrentEmployee();
+    return emp?.role || this.mockData.currentRole || 'Employee';
   }
 
   get userInitials() {
-    const r = this.mockData.currentRole;
-    if (r === 'employee') return 'DA';
-    if (r === 'manager') return 'OJ';
-    return 'NA';
+    const emp = this.mockData.getCurrentEmployee();
+    if (emp?.initials) return emp.initials;
+    if (emp?.name) {
+      const parts = emp.name.split(' ');
+      return parts.map((p: string) => p[0]).join('').toUpperCase().substring(0, 2);
+    }
+    return 'U';
   }
 
   logout() {

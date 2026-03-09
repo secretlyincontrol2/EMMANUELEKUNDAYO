@@ -47,74 +47,71 @@
     line-height: 1.6;
 }
 
-.role-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--sp-lg);
-    margin-top: var(--sp-xl);
-}
-
-.role-card {
+.auth-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--r-lg);
-    padding: var(--sp-2xl) var(--sp-lg);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    text-align: center;
+    padding: var(--sp-2xl);
+    max-width: 450px;
+    margin: var(--sp-xl) auto 0;
+    text-align: left;
     animation: fadeInUp 0.5s ease both;
-}
-
-.role-card:nth-child(1) {
     animation-delay: 0.1s;
 }
 
-.role-card:nth-child(2) {
-    animation-delay: 0.2s;
+.form-group {
+    margin-bottom: 1.2rem;
 }
 
-.role-card:nth-child(3) {
-    animation-delay: 0.3s;
-}
-
-.role-card:hover {
-    background: var(--bg-elevated);
-    border-color: var(--white);
-    transform: translateY(-6px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-.role-card:hover .card-arrow {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.role-icon {
-    font-size: 2rem;
-    margin-bottom: var(--sp-lg);
+.form-group label {
     display: block;
-}
-
-.role-card h3 {
-    margin-bottom: var(--sp-sm);
-    font-size: 1.1rem;
-}
-
-.role-card p {
-    font-size: 0.82rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
-    line-height: 1.6;
 }
 
-.card-arrow {
-    position: absolute;
-    bottom: var(--sp-lg);
-    right: var(--sp-lg);
-    font-size: 1.2rem;
-    opacity: 0;
-    transform: translateX(-8px);
-    transition: all 0.3s ease;
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.85rem;
+    background: var(--bg-dark);
+    border: 1px solid var(--gray-800);
+    color: var(--text-main);
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+    background: var(--white);
+    color: var(--black);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.auth-btn:hover {
+    opacity: 0.9;
+}
+
+.toggle-text {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
 }
 
 .footer-text {
@@ -145,13 +142,5 @@
 
     50% {
         transform: translateY(-6px);
-    }
-}
-
-@media (max-width: 768px) {
-    .role-cards {
-        grid-template-columns: 1fr;
-        max-width: 380px;
-        margin: var(--sp-xl) auto 0;
     }
 }

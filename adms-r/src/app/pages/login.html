@@ -7,27 +7,61 @@
                 assessment</p>
         </div>
 
-        <div class="role-cards">
-            <div class="role-card" (click)="selectRole('employee')">
-                <div class="role-icon">◉</div>
-                <h3>Employee</h3>
-                <p>View your performance score, feedback history, and detailed XAI explanations of your ratings</p>
-                <span class="card-arrow">→</span>
+        <div class="auth-card">
+            <h2 style="margin-bottom: 1rem;">{{ isSignup ? 'Create an Account' : 'Welcome Back' }}</h2>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" [(ngModel)]="formData.email" placeholder="name@babcock.edu.ng">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" [(ngModel)]="formData.password" placeholder="••••••••">
             </div>
 
-            <div class="role-card" (click)="selectRole('manager')">
-                <div class="role-icon">◎</div>
-                <h3>Manager</h3>
-                <p>Review team performance, submit 360° feedback, and monitor real-time employee progress</p>
-                <span class="card-arrow">→</span>
-            </div>
+            <ng-container *ngIf="isSignup">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" [(ngModel)]="formData.fullName" placeholder="Dr. John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select [(ngModel)]="formData.role">
+                        <option value="student">Student</option>
+                        <option value="employee">Employee / Lecturer</option>
+                        <option value="manager">Manager / HOD</option>
+                        <option value="hr">HR Admin</option>
+                    </select>
+                </div>
+                <!-- Demographics -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" [(ngModel)]="formData.age" placeholder="e.g. 35">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select [(ngModel)]="formData.gender">
+                            <option value="">Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Ethnicity / Background</label>
+                    <input type="text" [(ngModel)]="formData.ethnicity" placeholder="e.g. Yoruba">
+                </div>
+            </ng-container>
 
-            <div class="role-card" (click)="selectRole('hr')">
-                <div class="role-icon">◈</div>
-                <h3>HR Admin</h3>
-                <p>Access organisation analytics, algorithmic fairness audits, and NDPR compliance reports</p>
-                <span class="card-arrow">→</span>
-            </div>
+            <button class="btn-primary auth-btn" (click)="submit()">{{ isSignup ? 'Sign Up' : 'Log In' }}</button>
+
+            <p class="toggle-text">
+                {{ isSignup ? 'Already have an account?' : 'Need an account?' }}
+                <a (click)="toggleMode()" style="color: white; cursor: pointer; text-decoration: underline;">
+                    {{ isSignup ? 'Log in here' : 'Sign up here' }}
+                </a>
+            </p>
         </div>
 
         <p class="footer-text">Prototype Demo — Babcock University Context · NDPR Compliant · XAI Transparency Layer</p>

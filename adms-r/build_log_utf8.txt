@@ -1,0 +1,65 @@
+﻿[33mΓ¥»[39m Building...
+[32mΓ£ö[39m Building...
+Application bundle generation failed. [8.138 seconds] - 2026-03-04T17:46:35.959Z
+
+node.exe : 
+[1m[31m[31mX [41;3
+1m[[41;97mERROR[41;3
+1m][0m [1mNG5002: 
+Unexpected closing 
+tag "div". It may 
+happen when the tag 
+has already been 
+closed by another 
+tag. For more info 
+see https://www.w3.org
+/TR/html5/syntax.html#
+closing-elements-that-
+have-implied-end-tags
+[0m [1m[35m[plugin 
+angular-compiler][0m
+At line:1 char:1
++ & "C:\Program Files\
+nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: ([1m[31m   
+ [31mX...r-compile    
+r][0m:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+
+    src/app/pages/empl
+oyee-dashboard.html:16
+7:0:
+[37m      167 Γöé 
+[32m</div>[37m
+          Γò╡ 
+[32m~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+EmployeeDashboard.
+
+    src/app/pages/empl
+oyee-dashboard.ts:13:1
+5:
+[37m      13 Γöé   
+templateUrl: [32m'./e
+mployee-dashboard.html
+'[37m,
+         Γò╡          
+      [32m~~~~~~~~~~~
+~~~~~~~~~~~~~~~~[0m
+
+[39m[22m

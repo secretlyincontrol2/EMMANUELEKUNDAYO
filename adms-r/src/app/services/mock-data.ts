@@ -13,6 +13,7 @@ export interface Employee {
   riskLevel: 'low' | 'medium' | 'high';
   gender: string;
   trend: number[];
+  email?: string;
 }
 
 export interface Feedback {
@@ -51,7 +52,7 @@ export interface FairnessMetric {
 @Injectable({ providedIn: 'root' })
 export class MockDataService {
 
-  currentRole: 'employee' | 'manager' | 'hr' | null = null;
+  currentRole: 'student' | 'employee' | 'manager' | 'hr' | null = null;
 
   employees: Employee[] = [
     { id: 1, name: 'Dr. Adebayo F.', department: 'Computer Science', role: 'Lecturer II', overallScore: 84, kpiScore: 88, sentimentScore: 0.76, attendance: 94, initials: 'DA', riskLevel: 'low', gender: 'Male', trend: [68, 70, 72, 71, 74, 76, 75, 78, 79, 81, 82, 84] },
@@ -143,8 +144,29 @@ export class MockDataService {
 
   months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+  async loadEmployees() {
+    try {
+      const token = localStorage.getItem('adms_token');
+      if (!token) return;
+
+      const res = await fetch('http://127.0.0.1:8081/api/employees', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        this.employees = await res.json();
+      }
+    } catch (e) {
+      console.error("Failed to load employees", e);
+    }
+  }
+
   getCurrentEmployee(): Employee {
-    return this.employees[0];
+    const email = localStorage.getItem('adms_email');
+    if (email) {
+      const emp = this.employees.find(e => e.email === email);
+      if (emp) return emp;
+    }
+    return this.employees[this.employees.length - 1] || this.employees[0];
   }
 
   getTeamEmployees(): Employee[] {
